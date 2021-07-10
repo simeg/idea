@@ -3,6 +3,7 @@ use git2::{
     Repository,
 };
 
+use std::env;
 use std::path::Path;
 
 pub trait GitManagement {
@@ -115,7 +116,12 @@ impl Git {
     fn get_callbacks<'a>(&self) -> RemoteCallbacks<'a> {
         let mut callbacks = RemoteCallbacks::new();
         callbacks.credentials(|_url, username, _allowed_types| {
-            Cred::ssh_key_from_agent(username.unwrap())
+            Cred::ssh_key(
+                username.unwrap(),
+                None,
+                std::path::Path::new(&format!("{}/.ssh/id_rsa", env::var("HOME").unwrap())),
+                None,
+            )
         });
         callbacks
     }
