@@ -48,6 +48,8 @@ pub struct EurekaOptions {
     pub view: bool,
 }
 
+const BRANCH_NAME_DEFAULT: &str = "master";
+
 impl<CM, W, R, G, PO> Eureka<CM, W, R, G, PO>
 where
     CM: ConfigManagement,
@@ -168,9 +170,11 @@ where
         self.printer.println("Added and committed!")?;
 
         self.printer.println("Pushing your new idea..")?;
+
         self.git
             .push(branch_name.as_str())
             .map_err(|err| io::Error::new(ErrorKind::Other, err))?;
+
         self.printer.println("Pushed!")?;
 
         Ok(())
@@ -195,7 +199,7 @@ where
 
         // Default to "master"
         if branch_name.is_empty() {
-            branch_name = "master".to_string();
+            branch_name = BRANCH_NAME_DEFAULT.to_string();
         }
 
         self.cm.config_write(Branch, branch_name)

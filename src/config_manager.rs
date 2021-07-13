@@ -103,7 +103,7 @@ mod tests {
     use crate::config_manager::{ConfigManagement, ConfigManager, ConfigType};
     use std::io::{Read, Write};
     use std::path::PathBuf;
-    use std::{env, fs, io, panic, path};
+    use std::{env, fs, io, path};
     use tempfile::TempDir;
 
     type TestResult = Result<(), Box<dyn std::error::Error>>;
